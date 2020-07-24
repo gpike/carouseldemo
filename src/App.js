@@ -1,23 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './components/Carousel'
+import Carousel from "./components/Carousel";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Carousel count='10'>
+        </Carousel>
       </header>
     </div>
   );

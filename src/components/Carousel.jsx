@@ -42,6 +42,8 @@ const Carousel = ( props ) => {
         <>
             <h1> Slides</h1>
             {slides}
+            <h1> Slides</h1>
+            {slides}
         <Slider {...props}>
             {slides}
         </Slider>
@@ -75,11 +77,11 @@ Carousel.propTypes = {
 };
 
 Carousel.defaultProps = {
-    adaptiveHeight: false,
+    adaptiveHeight: true,
     arrows: true,
     autoplaySpeed: 3000,
     autoplay: false,
-    centerMode: false,
+    centerMode: true,
     draggable: true,
     dots: true,
     lazyLoad: 'progressive',

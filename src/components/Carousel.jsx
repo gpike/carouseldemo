@@ -1,55 +1,52 @@
-import React, {  useState, Suspense } from 'react';
+import React, {useState, Suspense, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
+import fetchUrls from "../api/unsplash";
 
 /**
  *
  * @Category Components
  */
-const getImageUrls = async (count) => {
-    const URL = "https://source.unsplash.com/1600x900/?beach";
-    let imageList = [];
-    for(let i=0; i < count;i++) {
-        const response = await fetch(URL);
-        const imageUrl = response.url;
-        imageList.push(imageUrl);
-    }
-    return imageList;
-}
+const Carousel = ( props ) => {
+    const [slides, setSlides] = useState([]);
 
-const ImageList = (props) => {
-    const urls = props.imageUrls;
-    return (
-        <>
-            {urls.map((image,i) => (
+    const buildSlides = async () => {
+        const urls = await fetchUrls(10);
+        console.log(`urls: ${urls.length}`)
+        const slides =
+            urls.map((image, i) =>
                 <div key={i}>
-                <Suspense fallback={<h1> Loading Image...</h1>}>
-                    <img className="beach-image" src={image} alt="beach"/>
-                </Suspense>
-            </div>
-            ))}
-        </>
-    );
-}
+                    <Suspense fallback={<h1> Loading Image...</h1>}>
+                        <img className="beach-image" src={image} alt="beach"/>
+                    </Suspense>
+                </div>
+            );
+        console.log(`slides: ${slides.length}`)
+        console.log(`slides: ${slides}`)
+        return slides;
+    }
 
-const initImages = async (count) => {
-    const images = await getImageUrls(count);
-    return images;
-}
 
-const Carousel = ({ count, ...otherProps }) => {
-
-    const {...props} = otherProps;
-    const [images] = useState(initImages(count));
+    useEffect(()=> {
+        const createSlides = async () => {
+            const imageSlides = await buildSlides();
+            console.log(`imageSlides: ${imageSlides.length}`)
+            console.log(`imageSlides: ${imageSlides}`)
+            setSlides(imageSlides);
+        }
+        createSlides();
+    }, []);
 
     return (
 
         <>
+            <h1> Slides</h1>
+            {slides}
         <Slider {...props}>
-            <ImageList imageUrls={images}/>
+            {slides}
         </Slider>
         <Slider {...props}>
-            <ImageList imageUrls={images}/>
+            {slides}
         </Slider>
             </>
     );
